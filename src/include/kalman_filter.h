@@ -2,6 +2,7 @@
 #define KALMAN_FILTER_H_
 
 #include "eigen3/Eigen/Dense"
+#include <iostream>
 
 class KalmanFilter {
  public:
@@ -38,13 +39,13 @@ class KalmanFilter {
    * Updates the state by using standard Kalman Filter equations
    * @param z The measurement at k+1
    */
-  void Update(const Eigen::VectorXd &z);
+  void UpdateLidar(const Eigen::VectorXd &z);
 
   /**
    * Updates the state by using Extended Kalman Filter equations
    * @param z The measurement at k+1
    */
-  void UpdateEKF(const Eigen::VectorXd &z);
+  void UpdateRadar(const Eigen::VectorXd &z);
 
   // state vector
   Eigen::VectorXd x_;
@@ -63,6 +64,29 @@ class KalmanFilter {
 
   // measurement covariance matrix
   Eigen::MatrixXd R_;
+private:
+    Eigen::VectorXd CalculatePolar(const Eigen::VectorXd& x_state) {
+        // recover state parameters
+        float px = x_state(0);
+        float py = x_state(1);
+        float vx = x_state(2);
+        float vy = x_state(3);
+
+        // check division by zero
+        if(px==0 || py==0){
+            std::cout<<"Division by zero"<<std::endl;
+            return x_state;
+        }
+        float rho, phi, rho_dot;
+        rho = sqrt(px*px + py*py);
+        phi = atan2(py, px);
+        rho_dot = (px * vx + py * vy) / rho;
+
+        Eigen::VectorXd v_polar = Eigen::VectorXd(3);
+        v_polar <<  rho,phi,rho_dot;
+        return v_polar;
+    }
+
 };
 
 #endif // KALMAN_FILTER_H_

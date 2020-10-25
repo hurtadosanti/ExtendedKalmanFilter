@@ -6,6 +6,8 @@ Extended Kalman Filter Project for the Self-Driving Car Nanodegree Program
 ## Project Introduction
 Now that you have learned how the extended Kalman filter works, you are going to implement the extended Kalman filter in C++. We are providing simulated lidar and radar measurements detecting a bicycle that travels around your vehicle. You will use a Kalman filter, lidar measurements and radar measurements to track the bicycle's position and velocity.
 
+
+The only files you need to modify are FusionEKF.cpp, kalman_filter.cpp, and tools.cpp.
 # Code that was be modified 
 ## FusionEKF.cpp
 
