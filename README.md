@@ -31,6 +31,7 @@ To build, compile and run the code we use a [docker image](Dockerfile) together 
         docker build -t dev/env .
         
 - To run the image
+
         docker run -p 127.0.0.1:2222:22 -p 127.0.0.1:4567:4567 --name kalmanfilter-env --rm dev/env 
 
 The code can be copy using ssh, then use cmake to setup and make to build. Finally run the KalmanFilter executable.
